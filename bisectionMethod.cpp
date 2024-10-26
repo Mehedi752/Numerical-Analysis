@@ -6,9 +6,9 @@ using namespace std;
 #define lld long double
 #define MOD 1000000007
 
-double errorFind(double c_experimental, double c_actual)
+double errorFind(double previousC, double actualC)
 {
-    return abs(c_experimental - c_actual) / c_actual;
+    return abs(actualC - previousC) / actualC;
 }
 
 double f(double x)
@@ -16,13 +16,14 @@ double f(double x)
     return 3 * x - cos(x) - 1;
 }
 
-double bisectionMethod(double a, double b, double ea)
+double bisectionMethod(double a, double b, double approximateError)
 {
-    double error_tm = 1, c = b, c_experimental;
-    while (error_tm > ea)
+    double temporaryError = 1, c = b, previousC;
+
+    // When temporary error will reached less or equal than approxiamte error our loop will be broken.
+    while (temporaryError > approximateError)
     {
-        c_experimental = c;
-        c = (a + b) / 2;
+        previousC = c, c = (a + b) / 2;
 
         if (f(c) == 0)
             break;
@@ -31,7 +32,8 @@ double bisectionMethod(double a, double b, double ea)
         else
             a = c;
 
-        error_tm = errorFind(c_experimental, c);
+        // cout << c << " " << previousC << '\n';
+        temporaryError = errorFind(previousC, c);
     }
     return c;
 }
@@ -39,8 +41,8 @@ double bisectionMethod(double a, double b, double ea)
 int32_t main()
 {
     ios_base::sync_with_stdio(false), cin.tie(NULL), cout.tie(NULL);
-    double a, b, ea = 0.0000000000001;
+    double a, b, approximateError = 0.0000000000001;
     cin >> a >> b;
-    double root = bisectionMethod(a, b, ea);
-    cout << root << endl;
+    double root = bisectionMethod(a, b, approximateError);
+    cout << "Root of a Equation by using Bisection Method : " << root << '\n';
 }
