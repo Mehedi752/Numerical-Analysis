@@ -21,7 +21,7 @@ double bisectionMethod(double a, double b, double approximateError)
     double c = b, temporaryError = 1, previousC;
 
     // When temporary error will reached less or equal than approxiamte error our loop will be broken.
-    while (abs(temporaryError) > approximateError)
+    while (abs(temporaryError) >= approximateError)
     {
         previousC = c, c = (a + b) / 2;
 
