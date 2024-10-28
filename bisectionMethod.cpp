@@ -8,20 +8,20 @@ using namespace std;
 
 double errorFind(double previousC, double actualC)
 {
-    return abs(actualC - previousC) / actualC;
+    return fabs(actualC - previousC) / actualC;
 }
 
 double f(double x)
 {
-    return 3 * x - cos(x) - 1;
+    return (x * x * x) - (x * x) + 2; // 3 * x - cos(x) - 1
 }
 
 double bisectionMethod(double a, double b, double approximateError)
 {
-    double temporaryError = 1, c = b, previousC;
+    double c = b, temporaryError = 1, previousC;
 
     // When temporary error will reached less or equal than approxiamte error our loop will be broken.
-    while (temporaryError > approximateError)
+    while (abs(temporaryError) > approximateError)
     {
         previousC = c, c = (a + b) / 2;
 
@@ -32,8 +32,9 @@ double bisectionMethod(double a, double b, double approximateError)
         else
             a = c;
 
-        // cout << c << " " << previousC << '\n';
+        // cout << a << " " << b << " " << c << " " << previousC << '\n';
         temporaryError = errorFind(previousC, c);
+        // cout << temporaryError << '\n';
     }
     return c;
 }
@@ -41,8 +42,14 @@ double bisectionMethod(double a, double b, double approximateError)
 int32_t main()
 {
     ios_base::sync_with_stdio(false), cin.tie(NULL), cout.tie(NULL);
+
     double a, b, approximateError = 0.0000000000001;
     cin >> a >> b;
+    if (f(a) * f(b) >= 0)
+    {
+        cout << "Incorrect interval. The function must have different signs at a and b." << '\n';
+        return 0;
+    }
     double root = bisectionMethod(a, b, approximateError);
     cout << "Root of a Equation by using Bisection Method : " << root << '\n';
 }
