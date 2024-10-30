@@ -6,24 +6,27 @@ using namespace std;
 #define lld long double
 #define MOD 1000000007
 
-double errorFind(double previousC, double actualC)
+// Function for Error Finding.
+double errorFind(double a, double b)
 {
-    return fabs(actualC - previousC) / actualC;
+    return fabs(b - a);
 }
 
+// Function for the Equation.
 double f(double x)
 {
-    return (x * x * x) - (x * x) + 2; // 3 * x - cos(x) - 1
+    return 3 * x - cos(x) - 1; //(x * x * x) - (x * x) + 2
 }
 
+int totalSteps = 0;
 double bisectionMethod(double a, double b, double approximateError)
 {
-    double c = b, temporaryError = 1, previousC;
+    double c = b, temporaryError = b - a;
 
     // When temporary error will reached less or equal than approxiamte error our loop will be broken.
     while (abs(temporaryError) >= approximateError)
     {
-        previousC = c, c = (a + b) / 2;
+        c = (a + b) / 2;
 
         if (f(c) == 0)
             break;
@@ -31,9 +34,10 @@ double bisectionMethod(double a, double b, double approximateError)
             b = c;
         else
             a = c;
+        totalSteps++;
 
-        // cout << a << " " << b << " " << c << " " << previousC << '\n';
-        temporaryError = errorFind(previousC, c);
+        // cout << a << " " << b << " " << c << '\n';
+        temporaryError = errorFind(a, b);
         // cout << temporaryError << '\n';
     }
     return c;
@@ -51,5 +55,7 @@ int32_t main()
         return 0;
     }
     double root = bisectionMethod(a, b, approximateError);
-    cout << "Root of a Equation by using Bisection Method : " << root << '\n';
+    cout << "Root of a Equation by using Bisection Method : " << root << '\n'
+         << " " << '\n';
+    cout << "Total Steps Needed for Finding the Root : " << totalSteps << '\n';
 }

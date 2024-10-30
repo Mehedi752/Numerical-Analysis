@@ -20,7 +20,7 @@ double errorFindingByTemporarayError(double presentC, double previousC)
 // Function for the Equation.
 double f(double x)
 {
-    return 3 * x - cos(x) - 1; //(x * x * x) - (x * x) + 2
+    return (x * x * x) - (x * x) + 2; // 3 * x - cos(x) - 1
 }
 
 int totalSteps = 0;
@@ -37,17 +37,35 @@ double falsePositionMethod(double a, double b, double approximateError)
         if (f(c) == 0)
             break;
 
-        if (f(c) * f(a) < 0)
+        if(f(c) * f(a) < 0)
+        {
             b = c;
+            countB++;
+            countA = 0;
+        }
         else
+        {
             a = c;
-
+            countA++;
+            countB = 0;
+        }
         totalSteps++;
 
-        // cout << a << " " << b << " " << c << '\n';
+        if (countA == 2)
+        {
+            b /= 2;
+            countA = 0;
+        }
+        if(countB == 2)
+        {
+            a /= 2;
+            countB = 0;
+        }
+
+        cout << a << " " << b << " " << c << '\n';
         temporaryError = errorFind(a, b);
         // temporaryError = errorFindingByTemporarayError(c,previousC);
-        // cout << temporaryError << '\n';
+        cout << temporaryError << '\n';
     }
     return c;
 }
