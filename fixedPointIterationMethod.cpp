@@ -1,0 +1,65 @@
+// Mehedi Hasan @Mehedi752
+#pragma GCC optimize("Ofast")
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+#define lld long double
+#define MOD 1000000007
+
+// Function for Error Finding.
+double errorFind(double newX, double oldX)
+{
+    return abs(newX - oldX);
+}
+
+double errorFindingByTemporarayError(double presentX, double previousX)
+{
+    return abs((presentX - previousX) / presentX);
+}
+
+// Function for the Equation.
+double f(double x)
+{
+    return 3 * x - cos(x) - 1;
+}
+
+double g(double x)
+{
+    return (cos(x) + 1) / 3; // f(x) = 3x - cos(x) - 1
+}
+
+int totalSteps = 0;
+double fixedPointIterationMethod(double x, double approximateError)
+{
+    double temporaryError = 1, previousX;
+
+    // When temporary error will reached less or equal than approxiamte error our loop will be broken.
+    while (abs(temporaryError) >= approximateError)
+    {
+        previousX = x;
+        x = g(x);
+        totalSteps++;
+        
+        temporaryError = errorFind(x, previousX);
+        // temporaryError = errorFindingByTemporarayError(x, previousX);
+        // cout << temporaryError << '\n';
+    }
+    return x;
+}
+
+int32_t main()
+{
+    ios_base::sync_with_stdio(false), cin.tie(NULL), cout.tie(NULL);
+
+    double a, b, approximateError = 0.0001;
+    cin >> a >> b;
+    if (f(a) * f(b) >= 0)
+    {
+        cout << "Incorrect interval. The function must have different signs at a and b." << '\n';
+        return 0;
+    }
+    double root = fixedPointIterationMethod(a, approximateError);
+    cout << "Root of the Equation by using Fixed Point Iteration Method : " << root << '\n'
+         << " " << '\n';
+    cout << "Total Steps Needed for Finding the Root : " << totalSteps << '\n';
+}

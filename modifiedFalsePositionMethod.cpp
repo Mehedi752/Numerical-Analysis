@@ -62,10 +62,10 @@ double falsePositionMethod(double a, double b, double approximateError)
             countB = 0;
         }
 
-        cout << a << " " << b << " " << c << '\n';
+        // cout << a << " " << b << " " << c << '\n';
         temporaryError = errorFind(a, b);
         // temporaryError = errorFindingByTemporarayError(c,previousC);
-        cout << temporaryError << '\n';
+        // cout << temporaryError << '\n';
     }
     return c;
 }
